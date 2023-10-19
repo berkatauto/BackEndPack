@@ -2,8 +2,9 @@ package main
 
 import (
 	"net/http"
-	"servs-kdrn/controller"
-	"servs-kdrn/login"
+
+	controller "github.com/berkatauto/servs-kdrn/controller/authenticator"
+	"github.com/berkatauto/servs-kdrn/login"
 )
 
 func main() {
