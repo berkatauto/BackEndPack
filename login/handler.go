@@ -14,21 +14,23 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userid := r.FormValue("userid")
-	userpass := r.FormValue("userpass")
+	username := r.FormValue("username")
+	password := r.FormValue("password")
 
-	if checkCredentials(userid, userpass) {
-		tokenString, err := watoken.Encode(userid, Privatekey)
+	if checkCredentials(username, password) {
+		tokenString, err := watoken.Encode(username, Privatekey)
 		if err != nil {
 			http.Error(w, "Token Generating Fail", http.StatusInternalServerError)
 			return
 		}
 		w.Write([]byte(tokenString))
+		// Redirect to the dashboard on successful login
+		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 	} else {
 		http.Error(w, "Login Failed", http.StatusUnauthorized)
 	}
 }
 
-func checkCredentials(userid, userpass string) bool {
-	return userid == "userid" && userpass == "userpass"
+func checkCredentials(username, password string) bool {
+	return password == "username" && password == "password"
 }

@@ -19,5 +19,14 @@ func main() {
 		}
 	})
 
-	http.ListenAndServe(":3050", nil)
+	http.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			// Handle the dashboard logic here and serve the dashboard HTML
+			http.ServeFile(w, r, "pages/main.html")
+		} else {
+			http.Error(w, "Method not authorized.", http.StatusMethodNotAllowed)
+		}
+	})
+
+	http.ListenAndServe(":8000", nil)
 }
