@@ -1,4 +1,4 @@
-package controller
+package Controller
 
 import (
 	"fmt"
@@ -13,9 +13,11 @@ func Auth() {
 	userid := "admin"
 	tokenstring, _ := watoken.Encode(userid, pvtKey)
 	fmt.Println(tokenstring)
+	fmt.Println(pvtKey)
+	fmt.Println(pbcKey)
 	//decode token to get userid
 	useridstring := watoken.DecodeGetId(pbcKey, tokenstring)
 	if useridstring == "" {
-		fmt.Println("Token Expired.")
+		fmt.Println("expire token")
 	}
 }

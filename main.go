@@ -1,32 +1,30 @@
 package main
 
 import (
+	"github.com/InformasiwisataBandung/BackEndEnkripsi/Controller"
+	"github.com/InformasiwisataBandung/BackEndEnkripsi/Login"
+	"github.com/InformasiwisataBandung/BackEndEnkripsi/Signup"
 	"net/http"
-
-	controller "github.com/berkatauto/servs-kdrn/controller/authenticator"
-	"github.com/berkatauto/servs-kdrn/login"
 )
 
+func LoginHandlerGCF(w http.ResponseWriter, r *http.Request) {
+	Login.LoginHandler(w, r)
+}
+
+func EntryPoint(w http.ResponseWriter, r *http.Request) {
+	Login.LoginHandler(w, r)
+}
 func main() {
-	controller.Auth()
-	login.RegisterLoginRoutes()
+	http.HandleFunc("/", EntryPoint)
+	Controller.Auth()
+	// Menghubungkan rute HTTP dari package login
+	// Mendaftarkan rute HTTP dari package login
+	// Mendaftarkan rute HTTP dari package signup
+	http.HandleFunc("/Signup", Signup.SignupHandler)
+	Login.RegisterLoginRoutes()
+	//Mendaftarkan Fungsi GCF
+	// Melayani form login
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet {
-			http.ServeFile(w, r, "pages/login.html")
-		} else {
-			http.Error(w, "Method not authorized.", http.StatusMethodNotAllowed)
-		}
-	})
-
-	http.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet {
-			// Handle the dashboard logic here and serve the dashboard HTML
-			http.ServeFile(w, r, "pages/main.html")
-		} else {
-			http.Error(w, "Method not authorized.", http.StatusMethodNotAllowed)
-		}
-	})
-
-	http.ListenAndServe(":8000", nil)
+	// Mulai server HTTP
+	http.ListenAndServe(":8989", nil)
 }
